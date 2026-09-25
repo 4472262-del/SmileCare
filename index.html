@@ -2,539 +2,299 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DentalCitas · Sistema de Gestión de Citas Dentales</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SmileCare Dental · Sistema de Citas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#F7FAFA;
-    --surface:#FFFFFF;
-    --ink:#123A3A;
-    --ink-soft:#4C6666;
-    --primary:#0E7C7B;
-    --primary-dark:#0A5C5B;
-    --accent:#F2A65A;
-    --line:#DCE7E6;
-    --shadow: 0 10px 30px rgba(14,124,123,0.08);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    line-height:1.6;
-  }
-  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;color:var(--ink);line-height:1.15;}
-  a{color:inherit;}
-  .container{max-width:1140px;margin:0 auto;padding:0 24px;}
-  img{max-width:100%;display:block;}
-
-  /* ===== HEADER / NAV ===== */
-  header{
-    position:sticky;top:0;z-index:1000;
-    background:rgba(247,250,250,0.92);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav-wrap{
-    display:flex;align-items:center;justify-content:space-between;
-    height:76px;
-  }
-  .brand{
-    display:flex;align-items:center;gap:10px;
-    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;
-  }
-  .brand-mark{
-    width:38px;height:38px;border-radius:11px;
-    background:var(--primary);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.1rem;flex-shrink:0;
-  }
-  .nav-links{
-    display:flex;gap:32px;list-style:none;
-  }
-  .nav-links a{
-    text-decoration:none;font-weight:500;font-size:0.95rem;color:var(--ink-soft);
-    padding-bottom:4px;border-bottom:2px solid transparent;
-  }
-  .nav-links a:hover{color:var(--primary);border-color:var(--primary);}
-  .nav-cta{
-    background:var(--primary);color:#fff;padding:10px 22px;border-radius:8px;
-    text-decoration:none;font-weight:600;font-size:0.9rem;white-space:nowrap;
-  }
-  .nav-cta:hover{background:var(--primary-dark);}
-
-  .hamburger{
-    display:none;flex-direction:column;justify-content:center;gap:5px;
-    width:40px;height:40px;background:none;border:none;cursor:pointer;
-    padding:0;
-  }
-  .hamburger span{
-    display:block;height:2px;width:24px;background:var(--ink);
-    border-radius:2px;transition:transform .25s ease, opacity .25s ease;
-  }
-  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .hamburger.open span:nth-child(2){opacity:0;}
-  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-
-  /* ===== HERO ===== */
-  .hero{padding:76px 0 64px;}
-  .hero-grid{
-    display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;
-  }
-  .eyebrow{
-    display:inline-block;color:var(--primary);font-weight:600;font-size:0.85rem;
-    margin-bottom:14px;
-  }
-  .hero h1{font-size:2.7rem;margin-bottom:18px;max-width:14ch;}
-  .hero p.lead{font-size:1.08rem;color:var(--ink-soft);max-width:46ch;margin-bottom:30px;}
-  .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
-  .btn{
-    padding:13px 26px;border-radius:8px;font-weight:600;font-size:0.95rem;
-    text-decoration:none;border:1px solid transparent;cursor:pointer;
-    display:inline-block;
-  }
-  .btn-primary{background:var(--primary);color:#fff;}
-  .btn-primary:hover{background:var(--primary-dark);}
-  .btn-outline{background:transparent;border-color:var(--line);color:var(--ink);}
-  .btn-outline:hover{border-color:var(--primary);color:var(--primary);}
-
-  .hero-visual{
-    background:var(--surface);border:1px solid var(--line);border-radius:20px;
-    padding:32px;box-shadow:var(--shadow);
-  }
-  .mock-card{
-    background:var(--bg);border-radius:14px;padding:18px;margin-bottom:12px;
-    display:flex;align-items:center;gap:14px;border:1px solid var(--line);
-  }
-  .mock-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-  .mock-card.confirmed .mock-dot{background:var(--primary);}
-  .mock-text{flex:1;}
-  .mock-text strong{display:block;font-size:0.92rem;}
-  .mock-text span{font-size:0.8rem;color:var(--ink-soft);}
-  .mock-status{
-    font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:20px;
-    background:#FCEEDD;color:var(--accent);
-  }
-  .mock-card.confirmed .mock-status{background:#E4F3F2;color:var(--primary-dark);}
-
-  /* ===== SECTION SHARED ===== */
-  section{padding:72px 0;border-bottom:1px solid var(--line);}
-  .section-head{max-width:640px;margin-bottom:44px;}
-  .section-head .eyebrow{margin-bottom:10px;}
-  .section-head h2{font-size:2rem;margin-bottom:14px;}
-  .section-head p{color:var(--ink-soft);font-size:1.02rem;}
-
-  /* ===== PROYECTO (descripción) ===== */
-  .proyecto-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-  }
-  .proyecto-item{
-    background:var(--surface);border:1px solid var(--line);border-radius:14px;
-    padding:26px;
-  }
-  .proyecto-item .num{
-    font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--primary);
-    font-size:0.85rem;margin-bottom:10px;display:block;
-  }
-  .proyecto-item h3{font-size:1.08rem;margin-bottom:8px;}
-  .proyecto-item p{font-size:0.92rem;color:var(--ink-soft);}
-
-  /* ===== MEDICOS ===== */
-  .doctor-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;
-  }
-  .doctor-card{
-    background:var(--surface);border:1px solid var(--line);border-radius:16px;
-    overflow:hidden;box-shadow:var(--shadow);
-  }
-  .doctor-card img{width:100%;height:210px;object-fit:cover;}
-  .doctor-body{padding:20px;}
-  .doctor-body h3{font-size:1.05rem;margin-bottom:2px;}
-  .doctor-body .role{color:var(--primary);font-size:0.85rem;font-weight:600;margin-bottom:10px;display:block;}
-  .doctor-body p{font-size:0.88rem;color:var(--ink-soft);}
-
-  /* ===== TRATAMIENTOS ===== */
-  .tx-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;
-  }
-  .tx-card{
-    background:var(--surface);border:1px solid var(--line);border-radius:14px;
-    padding:24px;
-  }
-  .tx-icon{
-    width:44px;height:44px;border-radius:10px;background:#E4F3F2;color:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:14px;
-  }
-  .tx-card h3{font-size:1.02rem;margin-bottom:6px;}
-  .tx-card p{font-size:0.88rem;color:var(--ink-soft);}
-
-  /* ===== HISTORIAL DE CITAS ===== */
-  .history-panel{
-    background:var(--surface);border:1px solid var(--line);border-radius:16px;
-    overflow:hidden;box-shadow:var(--shadow);
-  }
-  table{width:100%;border-collapse:collapse;}
-  thead{background:#EFF6F6;}
-  th, td{
-    text-align:left;padding:14px 18px;font-size:0.88rem;border-bottom:1px solid var(--line);
-  }
-  th{color:var(--ink-soft);font-weight:600;text-transform:uppercase;font-size:0.72rem;letter-spacing:0.03em;}
-  tbody tr:last-child td{border-bottom:none;}
-  .status-pill{
-    padding:4px 12px;border-radius:20px;font-size:0.76rem;font-weight:600;display:inline-block;
-  }
-  .status-completada{background:#E4F3F2;color:var(--primary-dark);}
-  .status-pendiente{background:#FCEEDD;color:var(--accent);}
-  .status-cancelada{background:#FBE7E7;color:#C1484C;}
-
-  /* ===== CONTACTO / REGISTRO ===== */
-  .contacto-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;
-  }
-  form{
-    display:flex;flex-direction:column;gap:14px;background:var(--surface);
-    border:1px solid var(--line);border-radius:16px;padding:30px;box-shadow:var(--shadow);
-  }
-  label{font-size:0.85rem;font-weight:500;color:var(--ink-soft);margin-bottom:-8px;}
-  input, select, textarea{
-    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;
-    background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:0.95rem;
-  }
-  input:focus, select:focus, textarea:focus{outline:2px solid var(--primary);outline-offset:1px;}
-  .contacto-info h2{font-size:1.7rem;margin-bottom:16px;}
-  .contacto-info p{color:var(--ink-soft);margin-bottom:22px;}
-  .info-line{display:flex;gap:12px;margin-bottom:14px;font-size:0.92rem;}
-  .info-line .dot{width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:7px;flex-shrink:0;}
-
-  footer{
-    padding:32px 0;text-align:center;color:var(--ink-soft);font-size:0.85rem;
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width:900px){
-    .hero-grid{grid-template-columns:1fr;}
-    .proyecto-grid{grid-template-columns:1fr 1fr;}
-    .contacto-grid{grid-template-columns:1fr;}
-  }
-  @media (max-width:768px){
-    .nav-links, .nav-cta{display:none;}
-    .hamburger{display:flex;}
-    .nav-links.mobile-open{
-      display:flex;flex-direction:column;position:absolute;top:76px;left:0;width:100%;
-      background:var(--surface);padding:20px 24px;gap:18px;border-bottom:1px solid var(--line);
-      box-shadow:var(--shadow);
-    }
-    .nav-links.mobile-open a{border:none;font-size:1rem;padding:6px 0;}
-    .nav-cta.mobile-open{
-      display:block;position:absolute;top:calc(76px + 210px);left:24px;right:24px;
-      text-align:center;
-    }
-    .hero h1{font-size:2.1rem;}
-    .proyecto-grid{grid-template-columns:1fr;}
-    table{font-size:0.8rem;}
-    th, td{padding:10px 12px;}
-    .history-panel{overflow-x:auto;}
-  }
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <header>
-  <div class="container nav-wrap">
+  <nav class="wrap">
     <div class="brand">
-      <span class="brand-mark"><img src="img/logo_dental.jpg" alt=""></span>
-      DentalCitas
+      <svg width="42" height="42" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><clipPath id="half"><rect x="50" y="0" width="50" height="100"/></clipPath></defs>
+        <circle cx="50" cy="50" r="47" fill="#E8F4F3"/>
+        <circle cx="50" cy="50" r="47" fill="#FFB3B3" clip-path="url(#half)"/>
+        <circle cx="50" cy="50" r="47" fill="none" stroke="#1F7A72" stroke-width="3"/>
+        <path d="M50 30 C40 22 26 26 26 40 C26 52 34 66 40 74 C43 78 47 74 50 66 C53 74 57 78 60 74 C66 66 74 52 74 40 C74 26 60 22 50 30 Z" fill="#FFFFFF" stroke="#1F7A72" stroke-width="2.5"/>
+        <path d="M18 58 C26 62 32 58 38 62" stroke="#3FB6A8" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M62 62 C68 58 74 62 82 58" stroke="#FF6B6B" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <span class="logo-word"><span class="smile">Smile</span><span class="care">Care</span></span>
+        <small>DENTAL</small>
+      </div>
     </div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#proyecto">Proyecto</a></li>
-      <li><a href="#medicos">Médicos</a></li>
-      <li><a href="#tratamientos">Tratamientos</a></li>
-      <li><a href="#historial">Historial de citas</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    <a href="#contacto" class="nav-cta" id="navCta">Agendar cita</a>
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <div class="nav-links" id="navLinks">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#sucursales">Sucursales</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn" href="#cita">Agendar cita</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
-  </div>
+  </nav>
 </header>
 
-<!-- HERO -->
-<section id="inicio" class="hero" style="border-bottom:1px solid var(--line);">
-  <div class="container hero-grid">
+<section class="hero" id="inicio">
+  <div class="wrap">
     <div>
-      <span class="eyebrow">SISTEMA DE GESTIÓN DE CITAS DENTALES</span>
-      <h1>Organiza tu clínica dental sin hojas sueltas ni llamadas cruzadas</h1>
-      <p class="lead">DentalCitas centraliza médicos, tratamientos y el historial de cada paciente en un solo lugar, para que agendar, confirmar y dar seguimiento a una cita tome segundos, no minutos.</p>
-      <div class="btn-row">
-        <a href="#contacto" class="btn btn-primary">Agendar una cita</a>
-        <a href="#proyecto" class="btn btn-outline">Conocer el proyecto</a>
+      <span class="eyebrow-badge">🦷 Sistema de citas en línea</span>
+      <h1>Cuidamos tu sonrisa,<br><span class="accent">tú eliges el momento</span></h1>
+      <p class="lead">Agenda tu cita dental en minutos, elige tratamiento, doctor y sucursal, y lleva el control de tu historial clínico desde un solo lugar.</p>
+      <div class="cta-row">
+        <a href="#cita" class="btn">Agendar mi cita</a>
+        <a href="#servicios" class="btn ghost">Ver tratamientos</a>
+      </div>
+      <div class="trust-row">
+        <div>3<span>Sucursales</span></div>
+        <div>5<span>Tratamientos</span></div>
+        <div>+1200<span>Pacientes atendidos</span></div>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="mock-card confirmed">
-        <span class="mock-dot"></span>
-        <div class="mock-text">
-          <strong>Limpieza dental — María G.</strong>
-          <span>Dra. Fernández · Hoy, 10:30 a.m.</span>
-        </div>
-        <span class="mock-status">Confirmada</span>
-      </div>
-      <div class="mock-card">
-        <span class="mock-dot"></span>
-        <div class="mock-text">
-          <strong>Ortodoncia — Luis R.</strong>
-          <span>Dr. Alarcón · Mañana, 3:00 p.m.</span>
-        </div>
-        <span class="mock-status">Pendiente</span>
-      </div>
-      <div class="mock-card confirmed">
-        <span class="mock-dot"></span>
-        <div class="mock-text">
-          <strong>Revisión general — Ana P.</strong>
-          <span>Dra. Fernández · Vie, 9:00 a.m.</span>
-        </div>
-        <span class="mock-status">Confirmada</span>
-      </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 260 260" aria-hidden="true">
+        <circle cx="130" cy="130" r="120" fill="#E8F4F3"/>
+        <path d="M130 60 C100 40 60 48 60 90 C60 122 78 158 95 182 C104 195 116 188 130 168 C144 188 156 195 165 182 C182 158 200 122 200 90 C200 48 160 40 130 60 Z" fill="#FFFFFF" stroke="#1F7A72" stroke-width="4"/>
+        <path d="M28 150 C55 160 75 148 95 160" stroke="#3FB6A8" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M165 160 C185 148 205 160 232 150" stroke="#FF6B6B" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <g class="sparkle"><path d="M60 60 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#3FB6A8"/></g>
+        <g class="sparkle d2"><path d="M205 190 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#FF6B6B"/></g>
+        <g class="sparkle d3"><path d="M210 70 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#3FB6A8"/></g>
+      </svg>
     </div>
   </div>
 </section>
 
-<!-- PROYECTO -->
-<section id="proyecto">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">DESCRIPCIÓN DEL PROYECTO</span>
-      <h2>Un sistema pensado para reducir el caos de la agenda dental</h2>
-      <p>DentalCitas nace para resolver un problema común en consultorios pequeños y medianos: la agenda dispersa en cuadernos, chats y llamadas. Nuestro sistema une la programación de citas, la información de cada médico y el historial clínico del paciente en una sola plataforma clara y fácil de usar.</p>
-    </div>
-    <div class="proyecto-grid">
-      <div class="proyecto-item">
-        <span class="num">Objetivo</span>
-        <h3>Centralizar la agenda</h3>
-        <p>Todos los médicos, horarios y tratamientos disponibles se consultan desde un solo panel, evitando cruces de citas y confusiones.</p>
-      </div>
-      <div class="proyecto-item">
-        <span class="num">Para quién</span>
-        <h3>Clínicas y pacientes</h3>
-        <p>El personal administra la agenda con rapidez, mientras el paciente puede revisar su historial y sus próximas citas sin llamar al consultorio.</p>
-      </div>
-      <div class="proyecto-item">
-        <span class="num">Resultado</span>
-        <h3>Menos errores, más seguimiento</h3>
-        <p>Cada cita queda registrada con su tratamiento y estado, dejando un historial completo listo para consulta en cualquier momento.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="wave" style="color:#fff"><svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path fill="currentColor" d="M0,32 C240,60 480,0 720,16 C960,32 1200,60 1440,24 L1440,60 L0,60 Z"/></svg></div>
 
-<!-- MEDICOS -->
-<section id="medicos">
-  <div class="container">
+<section class="services" id="servicios">
+  <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">NUESTRO EQUIPO</span>
-      <h2>Información de los médicos</h2>
-      <p>Cada perfil incluye especialidad, años de experiencia y disponibilidad, para que el paciente sepa exactamente con quién tendrá su cita.</p>
+      <span class="kicker">Tratamientos</span>
+      <h2>Todo lo que tu sonrisa necesita</h2>
+      <p>Selecciona el tratamiento al agendar tu cita; cada uno tiene doctores y horarios asociados.</p>
     </div>
-    <div class="doctor-grid">
-      <div class="doctor-card">
-        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500&q=80" alt="Doctora dental">
-        <div class="doctor-body">
-          <h3>Dra. Camila Fernández</h3>
-          <span class="role">Odontología general</span>
-          <p>12 años de experiencia. Atiende limpiezas, revisiones y tratamientos preventivos.</p>
-        </div>
-      </div>
-      <div class="doctor-card">
-        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=500&q=80" alt="Doctor dental">
-        <div class="doctor-body">
-          <h3>Dr. Iván Alarcón</h3>
-          <span class="role">Ortodoncia</span>
-          <p>8 años de experiencia. Especialista en brackets, alineadores y seguimiento de casos.</p>
-        </div>
-      </div>
-      <div class="doctor-card">
-        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80" alt="Doctora endodoncista">
-        <div class="doctor-body">
-          <h3>Dra. Paola Sánchez</h3>
-          <span class="role">Endodoncia</span>
-          <p>10 años de experiencia. A cargo de tratamientos de conducto y casos de urgencia.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRATAMIENTOS -->
-<section id="tratamientos">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">SERVICIOS</span>
-      <h2>Tratamiento</h2>
-      <p>Estos son los tratamientos que se pueden agendar directamente desde el sistema, cada uno con su duración estimada.</p>
-    </div>
-    <div class="tx-grid">
-      <div class="tx-card">
-        <div class="tx-icon">🪥</div>
+    <div class="grid-cards">
+      <div class="card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F7A72" stroke-width="2"><path d="M12 3c-3 0-6 2-6 6 0 4 2 8 3.5 10 1 1.3 2 .5 2.5-1.5.5 2 1.5 2.8 2.5 1.5C16 17 18 13 18 9c0-4-3-6-6-6Z"/></svg></div>
         <h3>Limpieza dental</h3>
-        <p>Remoción de placa y sarro. Duración aproximada: 40 minutos.</p>
+        <p>Profilaxis profesional para remover placa y sarro, previniendo caries y gingivitis.</p>
       </div>
-      <div class="tx-card">
-        <div class="tx-icon">🦷</div>
+      <div class="card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M4 12h16M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v0a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"/></svg></div>
+        <h3>Blanqueamiento</h3>
+        <p>Tratamiento estético que aclara varios tonos el color natural de tus dientes.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3FB6A8" stroke-width="2"><rect x="4" y="9" width="16" height="6" rx="3"/></svg></div>
         <h3>Ortodoncia</h3>
-        <p>Ajuste y seguimiento de brackets o alineadores. Duración: 30 minutos.</p>
+        <p>Brackets y alineadores para corregir la posición dental y mejorar tu mordida.</p>
       </div>
-      <div class="tx-card">
-        <div class="tx-icon">💉</div>
-        <h3>Tratamiento de conducto</h3>
-        <p>Endodoncia para piezas afectadas. Duración: 60–90 minutos.</p>
+      <div class="card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F7A72" stroke-width="2"><path d="M12 4v16M6 8l6-4 6 4"/></svg></div>
+        <h3>Endodoncia</h3>
+        <p>Tratamiento de conducto para salvar piezas dañadas o infectadas, sin dolor.</p>
       </div>
-      <div class="tx-card">
-        <div class="tx-icon">🔍</div>
-        <h3>Revisión general</h3>
-        <p>Diagnóstico y evaluación de salud bucal. Duración: 20 minutos.</p>
+      <div class="card">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+        <h3>Extracción</h3>
+        <p>Remoción segura de piezas dentales bajo anestesia local, con seguimiento post-operatorio.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HISTORIAL DE CITAS -->
-<section id="historial">
-  <div class="container">
+<section class="proceso" id="nosotros">
+  <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">SEGUIMIENTO DEL PACIENTE</span>
-      <h2>Historial de citas</h2>
-      <p>Ejemplo del historial que un paciente puede consultar dentro del sistema: fecha, médico, tratamiento y estado de cada cita.</p>
+      <span class="kicker">Cómo funciona</span>
+      <h2>Agendar tu cita toma tres pasos</h2>
+      <p>El mismo flujo que usan nuestros pacientes en el sistema de citas.</p>
     </div>
-    <div class="history-panel">
-      <table>
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Médico</th>
-            <th>Tratamiento</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>02 sep 2026</td>
-            <td>Dra. Camila Fernández</td>
-            <td>Limpieza dental</td>
-            <td><span class="status-pill status-completada">Completada</span></td>
-          </tr>
-          <tr>
-            <td>18 ago 2026</td>
-            <td>Dr. Iván Alarcón</td>
-            <td>Ajuste de ortodoncia</td>
-            <td><span class="status-pill status-completada">Completada</span></td>
-          </tr>
-          <tr>
-            <td>05 ago 2026</td>
-            <td>Dra. Paola Sánchez</td>
-            <td>Tratamiento de conducto</td>
-            <td><span class="status-pill status-cancelada">Cancelada</span></td>
-          </tr>
-          <tr>
-            <td>22 jul 2026</td>
-            <td>Dra. Camila Fernández</td>
-            <td>Revisión general</td>
-            <td><span class="status-pill status-completada">Completada</span></td>
-          </tr>
-          <tr>
-            <td>15 sep 2026</td>
-            <td>Dr. Iván Alarcón</td>
-            <td>Ajuste de ortodoncia</td>
-            <td><span class="status-pill status-pendiente">Pendiente</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="steps">
+      <div class="step">
+        <h3>Elige tratamiento y doctor</h3>
+        <p>Filtra por especialidad y sucursal según lo que necesites.</p>
+      </div>
+      <div class="step">
+        <h3>Selecciona fecha y hora</h3>
+        <p>El calendario muestra en tiempo real los horarios disponibles.</p>
+      </div>
+      <div class="step">
+        <h3>Confirma y listo</h3>
+        <p>Recibe tu cita confirmada y consúltala luego en tu historial.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACTO / AGENDAR -->
-<section id="contacto" style="border-bottom:none;">
-  <div class="container contacto-grid">
-    <div class="contacto-info">
-      <span class="eyebrow">AGENDAR CITA</span>
-      <h2>Solicita tu próxima cita</h2>
-      <p>Completa el formulario y el consultorio confirmará tu horario. El sistema registrará automáticamente esta cita en tu historial.</p>
-      <div class="info-line"><span class="dot"></span> Horario de atención: lunes a sábado, 8:00 a.m. – 6:00 p.m.</div>
-      <div class="info-line"><span class="dot"></span> Confirmación por correo o mensaje de texto.</div>
-      <div class="info-line"><span class="dot"></span> Puedes reprogramar o cancelar con 24 horas de anticipación.</div>
+<section class="doctores">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Nuestro equipo</span>
+      <h2>Doctores certificados</h2>
     </div>
-    <form id="citaForm">
-      <label for="nombre">Nombre completo</label>
-      <input type="text" id="nombre" placeholder="Ej. Ana Pérez" required>
+    <div class="doc-tabs" role="tablist">
+      <button class="doc-tab" role="tab" aria-selected="true" data-doc="1">Dra. Elena Ríos</button>
+      <button class="doc-tab" role="tab" aria-selected="false" data-doc="2">Dr. Marco Aguilar</button>
+      <button class="doc-tab" role="tab" aria-selected="false" data-doc="3">Dra. Paola Cerón</button>
+    </div>
+    <div class="doc-panel" data-panel="1">
+      <div class="avatar">ER</div>
+      <div class="doc-info">
+        <h3>Dra. Elena Ríos</h3>
+        <div class="spec">Ortodoncia</div>
+        <p>Especialista en alineación dental con más de 8 años atendiendo casos de brackets y alineadores invisibles.</p>
+      </div>
+    </div>
+    <div class="doc-panel" data-panel="2" hidden>
+      <div class="avatar">MA</div>
+      <div class="doc-info">
+        <h3>Dr. Marco Aguilar</h3>
+        <div class="spec">Endodoncia</div>
+        <p>Enfocado en tratamientos de conducto con técnicas mínimamente invasivas y control del dolor.</p>
+      </div>
+    </div>
+    <div class="doc-panel" data-panel="3" hidden>
+      <div class="avatar">PC</div>
+      <div class="doc-info">
+        <h3>Dra. Paola Cerón</h3>
+        <div class="spec">Odontología estética</div>
+        <p>Experta en blanqueamiento y diseño de sonrisa, con enfoque en resultados naturales.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <label for="correo">Correo electrónico</label>
-      <input type="email" id="correo" placeholder="ana@correo.com" required>
+<section class="sucursales" id="sucursales">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Ubicaciones</span>
+      <h2>Encuentra tu sucursal más cercana</h2>
+    </div>
+    <div class="grid-cards">
+      <div class="card">
+        <h3>📍 Sucursal Centro</h3>
+        <p>Atención de lunes a sábado, 8:00 am – 5:00 pm.</p>
+      </div>
+      <div class="card">
+        <h3>📍 Sucursal San miguel</h3>
+        <p>Atención de lunes a viernes, 8:00 am – 6:00 pm.</p>
+      </div>
+      <div class="card">
+        <h3>📍 Sucursal Soyapango</h3>
+        <p>Atención de martes a sábado, 9:00 am – 5:00 pm.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <label for="medico">Médico</label>
-      <select id="medico" required>
-        <option value="" disabled selected>Selecciona un médico</option>
-        <option value="fernandez">Dra. Camila Fernández — Odontología general</option>
-        <option value="alarcon">Dr. Iván Alarcón — Ortodoncia</option>
-        <option value="sanchez">Dra. Paola Sánchez — Endodoncia</option>
-      </select>
-
-      <label for="tratamiento">Tratamiento</label>
-      <select id="tratamiento" required>
-        <option value="" disabled selected>Selecciona un tratamiento</option>
-        <option value="limpieza">Limpieza dental</option>
-        <option value="ortodoncia">Ortodoncia</option>
-        <option value="conducto">Tratamiento de conducto</option>
-        <option value="revision">Revisión general</option>
-      </select>
-
-      <label for="mensaje">Notas (opcional)</label>
-      <textarea id="mensaje" rows="3" placeholder="Cuéntanos si tienes alguna molestia o preferencia de horario"></textarea>
-
-      <button type="submit" class="btn btn-primary">Solicitar cita</button>
+<section class="cita" id="cita">
+  <div class="wrap">
+    <div>
+      <span class="kicker">Reserva en línea</span>
+      <h2>Agenda tu próxima cita</h2>
+      <p style="margin-top:10px; max-width:40ch;">Elige tratamiento, doctor y un horario disponible. Los horarios en rojo ya están ocupados.</p>
+    </div>
+    <form class="booking" id="bookingForm">
+      <div class="row2">
+        <div class="field">
+          <label for="treat">Tratamiento</label>
+          <select id="treat">
+            <option>Limpieza dental</option>
+            <option>Blanqueamiento</option>
+            <option>Ortodoncia</option>
+            <option>Endodoncia</option>
+            <option>Extracción</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="doc">Doctor</label>
+          <select id="doc">
+            <option>Dra. Elena Ríos</option>
+            <option>Dr. Marco Aguilar</option>
+            <option>Dra. Paola Cerón</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha">
+      </div>
+      <div class="field">
+        <label>Horario disponible</label>
+        <div class="slots" id="slots">
+          <div class="slot">9:00 am</div>
+          <div class="slot busy">10:00 am</div>
+          <div class="slot">11:00 am</div>
+          <div class="slot busy">1:00 pm</div>
+          <div class="slot">2:30 pm</div>
+          <div class="slot">4:00 pm</div>
+        </div>
+      </div>
+      <button type="submit" class="btn" style="justify-content:center;">Confirmar cita</button>
+      <div class="confirm-msg" id="confirmMsg">✅ ¡Cita agendada! Te esperamos pronto en SmileCare Dental.</div>
     </form>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <p>© 2026 DentalCitas · Sistema de Gestión de Citas Dentales</p>
+<section id="preguntas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Dudas frecuentes</span>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span>¿Puedo cancelar o reprogramar mi cita?</span><span class="plus">+</span></div>
+        <div class="faq-a">Sí, puedes hacerlo desde tu panel de citas hasta 24 horas antes sin costo.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>¿Necesito crear una cuenta para agendar?</span><span class="plus">+</span></div>
+        <div class="faq-a">Sí, el registro toma menos de un minuto y guarda tu historial de tratamientos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>¿Qué sucursal me conviene elegir?</span><span class="plus">+</span></div>
+        <div class="faq-a">La que esté más cerca de ti; todas ofrecen los mismos tratamientos y doctores rotativos.</div>
+      </div>
+    </div>
   </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand" style="margin-bottom:14px;">
+        <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="47" fill="#1F7A72"/>
+          <path d="M50 30 C40 22 26 26 26 40 C26 52 34 66 40 74 C43 78 47 74 50 66 C53 74 57 78 60 74 C66 66 74 52 74 40 C74 26 60 22 50 30 Z" fill="#FFFFFF"/>
+        </svg>
+        <span class="logo-word" style="color:#fff;">SmileCare Dental</span>
+      </div>
+      <p style="opacity:.75; max-width:34ch; font-size:.9rem;">Sistema de citas para clínica dental — Proyecto final, Bachillerato Técnico Vocacional en Desarrollo de Software.</p>
+    </div>
+    <div>
+      <h4>Navegación</h4>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#cita">Agendar cita</a>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <a href="#">contacto@smilecare.com</a>
+      <a href="#">+503 0000-0000</a>
+    </div>
+  </div>
+  <p class="foot-bottom">© 2026 SmileCare Dental · Proyecto académico INFRAMEN</p>
 </footer>
 
-<script>
-  // Menú hamburguesa
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  const navCta = document.getElementById('navCta');
-
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    navLinks.classList.toggle('mobile-open');
-    navCta.classList.toggle('mobile-open');
-  });
-
-  // Cierra el menú al elegir una opción
-  document.querySelectorAll('#navLinks a').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('mobile-open');
-      navCta.classList.remove('mobile-open');
-    });
-  });
-
-  // Confirmación del formulario de cita
-  const form = document.getElementById('citaForm');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    alert(`¡Gracias, ${nombre}! Tu solicitud de cita fue registrada. Te confirmaremos pronto por correo.`);
-    form.reset();
-  });
-</script>
-
+<script src="js/script.js"></script>
 </body>
 </html>
